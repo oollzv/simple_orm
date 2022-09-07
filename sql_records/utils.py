@@ -1,4 +1,5 @@
 import re
+import tablib
 
 pattern_table_name = re.compile(r'^[a-zA-Z0-9_]+$')
 
@@ -15,6 +16,22 @@ class DotDict(dict):
 
     def __setattr__(self, key, value):
         self[key] = value
+
+
+class QueryResult(list):
+
+    def __init__(self, cols, data_set):
+        super().__init__(data_set)
+        self.cols = cols
+
+    def export(self, format, col_alias=None, **kwargs):
+        col_alias = col_alias or {}
+        headers = [col_alias.get(col, col) for col in self.cols]
+        data = tablib.Dataset()
+        data.headers = headers
+        for row in self:
+            data.append([row.get(col, None) for col in self.cols])
+        return data.export(format, **kwargs)
 
 
 def assert_valid_table_name(table_name):

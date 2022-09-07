@@ -1,14 +1,14 @@
 import setuptools
 
-with open('README.rst') as f:
+with open('README.md') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='simple_orm',
+    name='sql_records',
     version='1.0.0',
     author='zlqm',
     description='small mysql tool',
-    install_requires=['pymysql'],
+    install_requires=['pymysql', 'tablib'],
     long_description=long_description,
     packages=setuptools.find_packages(),
     classifiers=[

@@ -1,8 +1,6 @@
 import logging
-from unicodedata import name
-import simple_orm
-from simple_orm import resource
-from simple_orm.table import SimpleTable
+from sql_records import connections
+from sql_records.table import SimpleTable
 
 
 class Demo(SimpleTable):
@@ -29,11 +27,11 @@ def setup_connections():
             },
         ],
     }
-    simple_orm.setup_connections(config)
+    connections.load_config(config)
 
 
 def create_demo_table():
-    conn = resource.manager['default']
+    conn = connections['default']
     conn.raw_exec('drop table if exists demo_table')
     table_schema = '''create table demo_table (
         id int primary key AUTO_INCREMENT,
@@ -77,7 +75,9 @@ def main():
     assert Demo.count(id__lte=2) == 2
     assert Demo.count(id__lte=2, name__in=['1', '2']) == 2
 
-    simple_orm.close_connections()
+    print(Demo.query(name__gt=0).export('csv'))
+
+    connections.close()
 
 
 if __name__ == '__main__':

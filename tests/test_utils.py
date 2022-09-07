@@ -1,6 +1,6 @@
 import unittest
 
-from simple_orm.utils import DotDict, assert_valid_table_name, parse_conditions
+from sql_records.utils import DotDict, assert_valid_table_name, parse_conditions
 
 
 class TestTableName(unittest.TestCase):

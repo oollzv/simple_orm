@@ -1,4 +1,4 @@
-from simple_orm import resource
+from sql_records import connections
 
 
 class SimpleTable:
@@ -8,8 +8,7 @@ class SimpleTable:
 
     @classmethod
     def get_conn(cls):
-        manager = resource.manager
-        return manager[cls.DB_NAME]
+        return connections[cls.DB_NAME]
 
     @classmethod
     def count(cls, **conditions):
